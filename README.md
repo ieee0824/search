@@ -3,6 +3,8 @@ google search command.
 
 ## install
 
+go 1.11 later
+
 ```
 $ go get -u github.com/ieee0824/search
 ```
