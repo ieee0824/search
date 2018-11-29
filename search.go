@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"log"
 	u "net/url"
-	"os/exec"
-	"runtime"
 	"strings"
+
+	"github.com/pkg/browser"
 )
 
 const baseURL = "https://www.google.com/search"
@@ -19,7 +19,6 @@ func main() {
 	if *lang == "" {
 		*lang = "ja"
 	}
-
 	q := u.Values{}
 	q.Add("hl", *lang)
 	q.Add("lr", fmt.Sprintf("lang_%s", *lang))
@@ -36,12 +35,7 @@ func main() {
 
 	url.RawQuery = q.Encode()
 
-	switch runtime.GOOS {
-	case "darwin":
-		if err := exec.Command("open", url.String()).Run(); err != nil {
-			log.Fatalln(err)
-		}
-	default:
-		log.Fatalln("unknown os")
+	if err := browser.OpenURL(url.String()); err != nil {
+		log.Fatalln(err)
 	}
 }
